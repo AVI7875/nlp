@@ -1,0 +1,58 @@
+import nltk import nltk.corpus
+from nltk.tokenize import word_tokenize
+Sample="A spam filter is an application of sentence classification where i t receives an email message and assigns whether it’s a spam or not. If you want to classify news articles into different topics (business, politics, sports, etc.), it’s also a sentence classification task. Sentence classifi cation is one of the simplest NLP tasks that have a wide range of applicat ions including document classification, spam filtering, and sentiment anal ysis. Specifically, we’re going to look at the sentiment classifier and di scuss its components in detail."
+
+import nltk nltk.download('punkt')
+[nltk_data] Downloading package punkt to /root/nltk_data... [nltk_data]	Package punkt is already up-to-date!
+True
+
+type(Sample_tokens), len(Sample_tokens) (list, 102)
+from nltk.probability import FreqDist fdisk=FreqDist()
+for i in Sample_tokens: fdisk[i]=fdisk[i]+1
+fdisk
+
+-----------
+
+#Apply Tokenization
+
+Sample_tokens=word_tokenize(Sample)
+Sample_tokens
+
+-----------
+
+list(nltk.bigrams(Sample_tokens)) 
+
+-----------
+
+list(nltk.trigrams(Sample_tokens))
+
+-------------
+
+
+list(nltk.ngrams(Sample_tokens,2)) 
+
+
+-------------
+
+#Stemming and Lemmetization
+ 
+from nltk.stem import PorterStemmer pst=PorterStemmer()
+
+pst.stem("Taking"), pst.stem("crying"), pst.stem("Making") ('take', 'cri', 'make')
+
+from nltk.stem import wordnet
+from nltk.stem import WordNetLemmatizer lemmatizer=WordNetLemmatizer()
+
+word_to_stem=["cast","casti","cheese"]
+
+for i in word_to_stem:
+print(i + ":" + lemmatizer.lemmatize(i))
+
+cast:cast casti:casti cheese:cheese
+
+import nltk nltk.download('wordnet')
+
+[nltk_data] Downloading package wordnet to /root/nltk_data... [nltk_data]	Unzipping corpora/wordnet.zip.
+
+True
+

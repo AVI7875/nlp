@@ -1,0 +1,35 @@
+CODE / OUTPUT : -
+
+
+import nltk nltk.download('wordnet') nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger') from nltk.tokenize import word_tokenize
+
+nltk.download('brown')
+brown_words = " ".join(list(nltk.corpus.brown.words()[:102])) brown_words
+[nltk_data] Downloading package wordnet to /root/nltk_data... [nltk_data]	Unzipping corpora/wordnet.zip.
+[nltk_data] Downloading package punkt to /root/nltk_data... [nltk_data]	Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package averaged_perceptron_tagger to [nltk_data]	/root/nltk_data...
+[nltk_data]	Unzipping taggers/averaged_perceptron_tagger.zip. [nltk_data] Downloading package brown to /root/nltk_data... [nltk_data]	Unzipping corpora/brown.zip.
+{"type":"string"}
+
+brown_tokens = word_tokenize(brown_words) brown_tokens[:10]
+
+---------------
+
+brown_pos = [nltk.pos_tag([token]) for token in brown_tokens] brown_pos
+
+-------------
+
+nltk.download('maxent_ne_chunker') nltk.download('words')
+from nltk.chunk import ne_chunk
+for item in brown_pos: print(ne_chunk(item))
+
+-------------
+
+import spacy
+nlp = spacy.load('en_core_web_sm') brown_doc = nlp("".join(brown_words))
+for ent in brown_doc.ents: print(ent.text, ent.label_)
+
+
+------------
+

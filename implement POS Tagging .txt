@@ -1,0 +1,28 @@
+CODE / OUTPUT : -
+
+import nltk nltk.download('punkt') import nltk.corpus
+from nltk.tokenize import word_tokenize
+
+nltk.download('brown')
+brown_words = " ".join(list(nltk.corpus.brown.words()[:102])) brown_words
+[nltk_data] Downloading package punkt to /root/nltk_data... [nltk_data]	Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package brown to /root/nltk_data... [nltk_data]	Unzipping corpora/brown.zip.
+
+{"type":"string"}
+brown_tokens = word_tokenize(brown_words) brown_tokens[:10]
+------------
+
+import nltk nltk.download('averaged_perceptron_tagger') for token in brown_tokens:
+print(nltk.pos_tag([token]))
+
+-----------
+
+import spacy
+nlp = spacy.load('en_core_web_sm') brown_doc = nlp(brown_words)
+ 
+for token in brown_doc:
+print(token.i, token.text, token.pos_)
+
+
+-----------
+

@@ -1,0 +1,81 @@
+#Code / Output:
+
+import nltk import random
+from nltk.tokenize import word_tokenize import re
+import pandas as pd
+from google.colab import drive drive.mount('/content/drive')
+Mounted at /content/drive
+
+df=pd.read_csv('/content/drive/My Drive/Colab Notebooks/IMDB.csv') df.head()
+
+----------
+
+pos=df[df['sentiment']== 'positive']
+neg=df[df['sentiment']== 'negative'] print(len(neg), len(pos))
+
+------------
+
+
+files_pos=pos[0:1000] files_neg=neg[0:1000]
+print("length of files_pos",len(files_pos)) print("length of files_neg",len(files_neg))
+
+
+-----------
+
+all_words = [] documents=[] cleaned = []
+from nltk.corpus import stopwords import nltk nltk.download('stopwords')
+stop_words = list(set(stopwords.words('english'))) allowed_word_types =["J"]
+count = 0
+
+------------
+
+import nltk nltk.download('punkt') import nltk
+nltk.download('averaged_perceptron_tagger')
+for p in files_pos['review']: documents.append((p, "pos")) #remove punctuation
+cleaned = re.sub(r'[^(a-zA-Z)\s]','', p)
+
+#tokenize
+
+tokenized = word_tokenize(cleaned)
+
+#remove stopwords
+
+stopped=[w for w in tokenized if not w in stop_words] #parts of speech tagging for each word pos=nltk.pos_tag(stopped)
+for w in pos:
+if w[1][0] in allowed_word_types: all_words.append(w[0])
+
+-----------
+for p in files_neg['review']: documents.append((p, "neg")) #remove punctuation
+cleaned = re.sub(r'[^(a-zA-Z)\s]','', p)
+#tokenize
+
+tokenized = word_tokenize(cleaned)
+
+#remove stopwords
+stopped=[w for w in tokenized if not w in stop_words] #parts of speech tagging for each word pos=nltk.pos_tag(stopped)
+ 
+for w in pos:
+if w[1][0] in allowed_word_types: all_words.append(w[0])
+
+-------------
+
+#freq of words
+
+freq = nltk.FreqDist(all_words) import matplotlib.pyplot as plt freq.plot(30, cumulative = False) plt.show()
+
+---------
+
+#listing the 1000 most freqeunt words word_features = list(freq.keys())[:1000] word_features[10]
+{"type":"string"}
+
+def find_features(document): words = word_tokenize(document) features = {}
+for w in word_features: features[w] = (w in words)
+return features
+
+featuresets = [(find_features(rev), category) for (rev, category) in docum ents]
+
+random.shuffle(featuresets) training_set = featuresets[:800] testing_set = featuresets[800:]
+
+classifier = nltk.NaiveBayesClassifier.train(training_set) print('Classifier accuracy percent', (nltk.classify.accuracy(classifier, t esting_set))* 100, '%')
+classifier.show_most_informative_features(15)
+
